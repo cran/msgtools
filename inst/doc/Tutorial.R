@@ -21,7 +21,7 @@ library("msgtools")
 dump("ex", file = file.path(pkg_dir, "R", "fns.R"))
 
 ## ------------------------------------------------------------------------
-# check that gettext is available (required for msgtools to work)
+# check that GNU gettext is available (required for msgtools to work)
 check_for_gettext()
 
 get_messages(pkg_dir)

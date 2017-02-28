@@ -84,7 +84,8 @@ function(charset = "UTF-8",
                        translator_comments = rep(list(character(0)), nrow(direct)),
                        source_reference_comments = rep(list(character(0)), nrow(direct)),
                        flags_comments = rep(list(character(0)), nrow(direct)),
-                       previous_string_comments = rep(list(character(0)), nrow(direct))
+                       previous_string_comments = rep(list(character(0)), nrow(direct)),
+                       msgkey = character(nrow(direct))
                       ),
        countable = tibble(msgid = countable[["msgid"]],
                           msgid_plural = countable[["msgid_plural"]],
@@ -94,11 +95,16 @@ function(charset = "UTF-8",
                           translator_comments = rep(list(character(0)), nrow(countable)),
                           source_reference_comments = rep(list(character(0)), nrow(countable)),
                           flags_comments = rep(list(character(0)), nrow(countable)),
-                          previous_string_comments = rep(list(character(0)), nrow(countable))
+                          previous_string_comments = rep(list(character(0)), nrow(countable)),
+                          msgkey = character(nrow(countable))
                          )
     )
-    out[["direct"]][["msgkey"]] <- digest(paste(out[["direct"]][["msgid"]], out[["direct"]][["msgctext"]]), algo = "xxhash32")
-    out[["countable"]][["msgkey"]] <- digest(paste(out[["countable"]][["msgid"]], out[["countable"]][["msgctext"]]), algo = "xxhash32")
+    if (nrow(out[["direct"]]) > 0) {
+        out[["direct"]][["msgkey"]] <- digest(paste(out[["direct"]][["msgid"]], out[["direct"]][["msgctext"]]), algo = "xxhash32")
+    }
+    if (nrow(out[["countable"]]) > 0) {
+        out[["countable"]][["msgkey"]] <- digest(paste(out[["countable"]][["msgid"]], out[["countable"]][["msgctext"]]), algo = "xxhash32")
+    }
     out
 }
 
@@ -109,7 +115,9 @@ read_template <- function(pkg = ".", domain = "R"){
         stop("Template (.pot) file not found!")
     }
     pot_file <- template_path(pkg = pkg, domain = domain)
-    fix_metadata(read_po(pot_file), pkg = pkg, file_type = "pot")
+    pot <- read_po(pot_file)
+    translator <- pot[["metadata"]][["value"]][pot[["metadata"]][["name"]] == "Last-Translator"]
+    fix_metadata(pot, pkg = pkg, .dots = list("Last-Translator" = translator))
 }
 
 #' @rdname templates

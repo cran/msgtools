@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2017-01-08" />
+<meta name="date" content="2017-02-28" />
 
 <title>Tools for Developing Diagnostic Messages</title>
 
@@ -221,7 +221,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Tools for Developing Diagnostic Messages</h1>
-<h4 class="date"><em>2017-01-08</em></h4>
+<h4 class="date"><em>2017-02-28</em></h4>
 
 </div>
 
@@ -252,7 +252,7 @@ description &lt;- list(
 pkg_dir &lt;- file.path(tempdir(), &quot;translateme&quot;)
 dir.create(pkg_dir)
 create(pkg_dir, description = description, rstudio = FALSE)</code></pre>
-<pre><code>Creating package 'translateme' in 'C:/Users/THOMAS/AppData/Local/Temp/RtmpwbsDHb'</code></pre>
+<pre><code>Creating package 'translateme' in 'C:/Users/THOMAS/AppData/Local/Temp/RtmpqQRYmA'</code></pre>
 <pre><code>No DESCRIPTION found. Creating with values:</code></pre>
 <pre><code>Package: translateme
 Title: An Example Package
@@ -280,7 +280,7 @@ BugReports: https://github.com/RL10N/msgtools/issues</code></pre>
 &lt;environment: namespace:msgtools&gt;</code></pre>
 <pre class="r"><code>dump(&quot;ex&quot;, file = file.path(pkg_dir, &quot;R&quot;, &quot;fns.R&quot;))</code></pre>
 <p>We will just confirm that the function has been added to the package by using the <code>get_messages()</code> function, which extracts all translatable messages from a package’s code:</p>
-<pre class="r"><code># check that gettext is available (required for msgtools to work)
+<pre class="r"><code># check that GNU gettext is available (required for msgtools to work)
 check_for_gettext()</code></pre>
 <pre><code>[1] TRUE</code></pre>
 <pre class="r"><code>get_messages(pkg_dir)</code></pre>
@@ -300,8 +300,9 @@ check_for_gettext()</code></pre>
 <p>This shows that any call to <code>stop()</code>, <code>warning()</code>, <code>message()</code>, <code>gettext()</code>, <code>ngettext()</code>, or <code>gettextf()</code> is automatically internationalized. This means that you likely do not have to change any R code to make it ready for translation. All you have to do is <em>localize</em> the messages into whatever target languages you are interested in. If you translate messages into a given language, those translations will be shown to end-users when operating in a locale that uses that language; otherwise the original English language messages will be shown. (For this to work, R has to be installed with internationalization support (which is optional).) With the package setup, we can now start configuring the package for localization.</p>
 <p>To do that, start by calling <code>use_localization()</code>, which will add a <code>/po</code> directory to the package and initialize a <code>.pot</code> (“portable object template”) file that contains all translatable messages:</p>
 <pre class="r"><code>use_localization(pkg_dir)</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-01-08 15:11:20+0000'.</code></pre>
-<pre><code>Updating the Last-Translator to 'Thomas J. Leeper &lt;thosjleeper@gmail.com&gt;'.</code></pre>
+<pre><code>Updating the Project-Id-Version to 'msgtools 0.2.6'.</code></pre>
+<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
+<pre><code>Updating the Language-Team to ''.</code></pre>
 <p>You can also use the <code>use_l10n()</code> function, which is an alias with a slightly shorter name.</p>
 <div id="translating-messages" class="section level3">
 <h3>Translating Messages</h3>
@@ -312,38 +313,38 @@ msgstr &quot;Error desconegut del sistema&quot;</code></pre>
 <p>(The R source contains a number of examples of translations, for example in <a href="https://svn.r-project.org/R/trunk/src/library/base/po/">the base package</a>.)</p>
 <p>To do so, you simply call <code>make_translation()</code> with the language and contact information for the translator (possibly you or someone else). Here’s the code to initialize a Spanish translation:</p>
 <pre class="r"><code>es &lt;- make_translation(&quot;es&quot;, translator = &quot;Awesome Translator &lt;translator@example.com&quot;, pkg = pkg_dir)</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-01-08 15:11:21+0000'.</code></pre>
-<pre><code>Updating the Last-Translator to 'Thomas J. Leeper &lt;thosjleeper@gmail.com&gt;'.</code></pre>
+<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
+<pre><code>Updating the Language-Team to ''.</code></pre>
 <p>This creates an empty translation <code>&quot;po&quot;</code> object in memory based on the template file.</p>
 <p>We could also do this interactively using <code>edit_translation(es)</code></p>
 <p>Once you are satisfied with the translations, you can write them to the package directory using:</p>
 <pre class="r"><code>write_translation(es, pkg = pkg_dir)</code></pre>
 <p>If you want, you can also edit the files manually using a text editor. The <code>make_translation()</code> file respects any existing translations, so calling it again will update the .po file against the template and load the updated file into memory:</p>
 <pre class="r"><code>es &lt;- make_translation(&quot;es&quot;, pkg = pkg_dir)</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-01-08 15:11:21+0000'.</code></pre>
-<pre><code>Updating the Last-Translator to 'Thomas J. Leeper &lt;thosjleeper@gmail.com&gt;'.</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-01-08 15:11:21+0000'.</code></pre>
-<pre><code>Updating the Last-Translator to 'Thomas J. Leeper &lt;thosjleeper@gmail.com&gt;'.</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-01-08 15:11:22+0000'.</code></pre>
-<pre><code>Updating the Last-Translator to 'Thomas J. Leeper &lt;thosjleeper@gmail.com&gt;'.</code></pre>
+<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
+<pre><code>Updating the Language-Team to ''.</code></pre>
+<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
+<pre><code>Updating the Language-Team to ''.</code></pre>
+<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
+<pre><code>Updating the Language-Team to ''.</code></pre>
 </div>
 <div id="updating-translations" class="section level3">
 <h3>Updating Translations</h3>
 <p>If you make changes to your code, you will need to update the .pot template file, as well as any translations. To do so, simply sync the template (updating it against your current code) and remake the translations:</p>
 <pre class="r"><code>sync_template(pkg = pkg_dir)</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-01-08 15:11:22+0000'.</code></pre>
-<pre><code>Updating the Last-Translator to 'Thomas J. Leeper &lt;thosjleeper@gmail.com&gt;'.</code></pre>
+<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:11+0000'.</code></pre>
+<pre><code>Updating the Language-Team to ''.</code></pre>
 <pre class="r"><code>es &lt;- make_translation(&quot;es&quot;, pkg = pkg_dir)</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-01-08 15:11:23+0000'.
-Updating the Last-Translator to 'Thomas J. Leeper &lt;thosjleeper@gmail.com&gt;'.</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-01-08 15:11:23+0000'.</code></pre>
-<pre><code>Updating the Last-Translator to 'Thomas J. Leeper &lt;thosjleeper@gmail.com&gt;'.</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-01-08 15:11:23+0000'.</code></pre>
-<pre><code>Updating the Last-Translator to 'Thomas J. Leeper &lt;thosjleeper@gmail.com&gt;'.</code></pre>
+<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:11+0000'.
+Updating the Language-Team to ''.</code></pre>
+<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:11+0000'.</code></pre>
+<pre><code>Updating the Language-Team to ''.</code></pre>
+<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:11+0000'.</code></pre>
+<pre><code>Updating the Language-Team to ''.</code></pre>
 </div>
 <div id="installing-translations" class="section level3">
 <h3>Installing Translations</h3>
-<p>Once we have the messages translated, we can check them for errors using <code>check_translations()</code> and then install them into the package by using <code>install_translations()</code>, which will create a <code>inst/po</code> directory and populate it with the translation binaries:</p>
+<p>Once we have the messages translated, we can check them for errors using <code>check_translations()</code> and then install them into the package by using <code>install_translations()</code>, which will create a <code>inst/po</code> directory and populate it with the translation <code>.mo</code> (“message object”) binaries:</p>
 <pre class="r"><code>check_translations(pkg_dir)</code></pre>
 <pre><code>$`R-es`
 No errors</code></pre>

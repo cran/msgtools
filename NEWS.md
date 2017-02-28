@@ -1,3 +1,15 @@
+# CHANGES TO msgtools 0.2.6
+
+* Work on UTF-8 issue. (#22)
+* Added test of core functionality when no messages are present. (#21)
+
+# CHANGES TO msgtools 0.2.5
+
+* Updated SystemRequirements to specify `GNU gettext`. (#20)
+* Made tests conditional successful `check_for_gettext()`. (#20)
+* Updated calls to `poio::fix_metadata()` to pass explicit `Last-Translator` metadata.
+* Installed Spanish translation of some messages.
+
 # CHANGES TO msgtools 0.2.4
 
 * Updated package to work with new R6-based "po" objects from **poio**.

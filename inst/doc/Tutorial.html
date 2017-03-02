@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2017-02-28" />
+<meta name="date" content="2017-03-01" />
 
 <title>Tools for Developing Diagnostic Messages</title>
 
@@ -221,7 +221,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Tools for Developing Diagnostic Messages</h1>
-<h4 class="date"><em>2017-02-28</em></h4>
+<h4 class="date"><em>2017-03-01</em></h4>
 
 </div>
 
@@ -252,57 +252,57 @@ description &lt;- list(
 pkg_dir &lt;- file.path(tempdir(), &quot;translateme&quot;)
 dir.create(pkg_dir)
 create(pkg_dir, description = description, rstudio = FALSE)</code></pre>
-<pre><code>Creating package 'translateme' in 'C:/Users/THOMAS/AppData/Local/Temp/RtmpqQRYmA'</code></pre>
-<pre><code>No DESCRIPTION found. Creating with values:</code></pre>
-<pre><code>Package: translateme
-Title: An Example Package
-Version: 0.0.0.9000
-Authors@R: person(&quot;First&quot;, &quot;Last&quot;, email = &quot;first.last@example.com&quot;, role = c(&quot;aut&quot;, &quot;cre&quot;))
-Description: Demonstrates 'msgtools' functionality
-Depends: R (&gt;= 3.4.0)
-License: Unlimited
-Encoding: UTF-8
-LazyData: true
-BugReports: https://github.com/RL10N/msgtools/issues</code></pre>
+<pre><code>## Creating package 'translateme' in 'C:/Users/THOMAS/AppData/Local/Temp/RtmpmOKOr1'</code></pre>
+<pre><code>## No DESCRIPTION found. Creating with values:</code></pre>
+<pre><code>## Package: translateme
+## Title: An Example Package
+## Version: 0.0.0.9000
+## Authors@R: person(&quot;First&quot;, &quot;Last&quot;, email = &quot;first.last@example.com&quot;, role = c(&quot;aut&quot;, &quot;cre&quot;))
+## Description: Demonstrates 'msgtools' functionality
+## Depends: R (&gt;= 3.3.2)
+## License: Unlimited
+## Encoding: UTF-8
+## LazyData: true
+## BugReports: https://github.com/RL10N/msgtools/issues</code></pre>
 <p>We will then add a function to this “dummy” package that contains a number of translatable messages:</p>
 <pre class="r"><code>library(&quot;msgtools&quot;)
 (ex &lt;- msgtools:::translatable_messages)</code></pre>
-<pre><code>function (n = 7) 
-{
-    gettext(&quot;As I was going to St. Ives&quot;)
-    wives &lt;- ngettext(n, &quot;I met a man with %d wife&quot;, &quot;I met a man with %d wives&quot;)
-    gettextf(&quot;Every wife had %d sacks&quot;, n)
-    message(&quot;Every sack had &quot;, n, &quot; cats&quot;)
-    message(gettextf(&quot;Every cat had %d kits&quot;, n))
-    warning(&quot;Kits, cats, sacks, and wives&quot;)
-    stop(&quot;How many were going to St. Ives?&quot;)
-}
-&lt;environment: namespace:msgtools&gt;</code></pre>
+<pre><code>## function (n = 7) 
+## {
+##     gettext(&quot;As I was going to St. Ives&quot;)
+##     wives &lt;- ngettext(n, &quot;I met a man with %d wife&quot;, &quot;I met a man with %d wives&quot;)
+##     gettextf(&quot;Every wife had %d sacks&quot;, n)
+##     message(&quot;Every sack had &quot;, n, &quot; cats&quot;)
+##     message(gettextf(&quot;Every cat had %d kits&quot;, n))
+##     warning(&quot;Kits, cats, sacks, and wives&quot;)
+##     stop(&quot;How many were going to St. Ives?&quot;)
+## }
+## &lt;environment: namespace:msgtools&gt;</code></pre>
 <pre class="r"><code>dump(&quot;ex&quot;, file = file.path(pkg_dir, &quot;R&quot;, &quot;fns.R&quot;))</code></pre>
 <p>We will just confirm that the function has been added to the package by using the <code>get_messages()</code> function, which extracts all translatable messages from a package’s code:</p>
 <pre class="r"><code># check that GNU gettext is available (required for msgtools to work)
 check_for_gettext()</code></pre>
-<pre><code>[1] TRUE</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>get_messages(pkg_dir)</code></pre>
-<pre><code># A tibble: 8 × 4
-                             msgid              msgid_plural      type
-                             &lt;chr&gt;                     &lt;chr&gt;     &lt;chr&gt;
-1       As I was going to St. Ives                      &lt;NA&gt;    direct
-2          Every wife had %d sacks                      &lt;NA&gt;    direct
-3                   Every sack had                      &lt;NA&gt;    direct
-4                             cats                      &lt;NA&gt;    direct
-5            Every cat had %d kits                      &lt;NA&gt;    direct
-6     Kits, cats, sacks, and wives                      &lt;NA&gt;    direct
-7 How many were going to St. Ives?                      &lt;NA&gt;    direct
-8         I met a man with %d wife I met a man with %d wives countable
-# ... with 1 more variables: file &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 8 × 4
+##                              msgid              msgid_plural      type
+##                              &lt;chr&gt;                     &lt;chr&gt;     &lt;chr&gt;
+## 1       As I was going to St. Ives                      &lt;NA&gt;    direct
+## 2          Every wife had %d sacks                      &lt;NA&gt;    direct
+## 3                   Every sack had                      &lt;NA&gt;    direct
+## 4                             cats                      &lt;NA&gt;    direct
+## 5            Every cat had %d kits                      &lt;NA&gt;    direct
+## 6     Kits, cats, sacks, and wives                      &lt;NA&gt;    direct
+## 7 How many were going to St. Ives?                      &lt;NA&gt;    direct
+## 8         I met a man with %d wife I met a man with %d wives countable
+## # ... with 1 more variables: file &lt;chr&gt;</code></pre>
 <p>(Note: If your working directory is within the package, you do <em>not</em> need to explicitly specify the package directory, <code>pkg</code>.)</p>
 <p>This shows that any call to <code>stop()</code>, <code>warning()</code>, <code>message()</code>, <code>gettext()</code>, <code>ngettext()</code>, or <code>gettextf()</code> is automatically internationalized. This means that you likely do not have to change any R code to make it ready for translation. All you have to do is <em>localize</em> the messages into whatever target languages you are interested in. If you translate messages into a given language, those translations will be shown to end-users when operating in a locale that uses that language; otherwise the original English language messages will be shown. (For this to work, R has to be installed with internationalization support (which is optional).) With the package setup, we can now start configuring the package for localization.</p>
 <p>To do that, start by calling <code>use_localization()</code>, which will add a <code>/po</code> directory to the package and initialize a <code>.pot</code> (“portable object template”) file that contains all translatable messages:</p>
 <pre class="r"><code>use_localization(pkg_dir)</code></pre>
-<pre><code>Updating the Project-Id-Version to 'msgtools 0.2.6'.</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
-<pre><code>Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the PO-Revision-Date to '2017-03-01 15:27:27+0000'.</code></pre>
+<pre><code>## Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the Content-Type to 'text/plain; charset=UTF-8'.</code></pre>
 <p>You can also use the <code>use_l10n()</code> function, which is an alias with a slightly shorter name.</p>
 <div id="translating-messages" class="section level3">
 <h3>Translating Messages</h3>
@@ -313,45 +313,45 @@ msgstr &quot;Error desconegut del sistema&quot;</code></pre>
 <p>(The R source contains a number of examples of translations, for example in <a href="https://svn.r-project.org/R/trunk/src/library/base/po/">the base package</a>.)</p>
 <p>To do so, you simply call <code>make_translation()</code> with the language and contact information for the translator (possibly you or someone else). Here’s the code to initialize a Spanish translation:</p>
 <pre class="r"><code>es &lt;- make_translation(&quot;es&quot;, translator = &quot;Awesome Translator &lt;translator@example.com&quot;, pkg = pkg_dir)</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
-<pre><code>Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the PO-Revision-Date to '2017-03-01 15:27:27+0000'.</code></pre>
+<pre><code>## Updating the Language-Team to ''.</code></pre>
 <p>This creates an empty translation <code>&quot;po&quot;</code> object in memory based on the template file.</p>
 <p>We could also do this interactively using <code>edit_translation(es)</code></p>
 <p>Once you are satisfied with the translations, you can write them to the package directory using:</p>
 <pre class="r"><code>write_translation(es, pkg = pkg_dir)</code></pre>
 <p>If you want, you can also edit the files manually using a text editor. The <code>make_translation()</code> file respects any existing translations, so calling it again will update the .po file against the template and load the updated file into memory:</p>
 <pre class="r"><code>es &lt;- make_translation(&quot;es&quot;, pkg = pkg_dir)</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
-<pre><code>Updating the Language-Team to ''.</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
-<pre><code>Updating the Language-Team to ''.</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:10+0000'.</code></pre>
-<pre><code>Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the PO-Revision-Date to '2017-03-01 15:27:27+0000'.</code></pre>
+<pre><code>## Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the PO-Revision-Date to '2017-03-01 15:27:27+0000'.</code></pre>
+<pre><code>## Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the PO-Revision-Date to '2017-03-01 15:27:27+0000'.</code></pre>
+<pre><code>## Updating the Language-Team to ''.</code></pre>
 </div>
 <div id="updating-translations" class="section level3">
 <h3>Updating Translations</h3>
 <p>If you make changes to your code, you will need to update the .pot template file, as well as any translations. To do so, simply sync the template (updating it against your current code) and remake the translations:</p>
 <pre class="r"><code>sync_template(pkg = pkg_dir)</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:11+0000'.</code></pre>
-<pre><code>Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the PO-Revision-Date to '2017-03-01 15:27:27+0000'.</code></pre>
+<pre><code>## Updating the Language-Team to ''.</code></pre>
 <pre class="r"><code>es &lt;- make_translation(&quot;es&quot;, pkg = pkg_dir)</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:11+0000'.
-Updating the Language-Team to ''.</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:11+0000'.</code></pre>
-<pre><code>Updating the Language-Team to ''.</code></pre>
-<pre><code>Updating the PO-Revision-Date to '2017-02-28 12:08:11+0000'.</code></pre>
-<pre><code>Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the PO-Revision-Date to '2017-03-01 15:27:27+0000'.
+## Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the PO-Revision-Date to '2017-03-01 15:27:27+0000'.</code></pre>
+<pre><code>## Updating the Language-Team to ''.</code></pre>
+<pre><code>## Updating the PO-Revision-Date to '2017-03-01 15:27:27+0000'.</code></pre>
+<pre><code>## Updating the Language-Team to ''.</code></pre>
 </div>
 <div id="installing-translations" class="section level3">
 <h3>Installing Translations</h3>
 <p>Once we have the messages translated, we can check them for errors using <code>check_translations()</code> and then install them into the package by using <code>install_translations()</code>, which will create a <code>inst/po</code> directory and populate it with the translation <code>.mo</code> (“message object”) binaries:</p>
 <pre class="r"><code>check_translations(pkg_dir)</code></pre>
-<pre><code>$`R-es`
-No errors</code></pre>
+<pre><code>## $`R-es`
+## No errors</code></pre>
 <pre class="r"><code>install_translations(pkg_dir)</code></pre>
 <p>That’s it! The message translations will now be built and installed with the package, as you can see here:</p>
 <pre class="r"><code>dir(file.path(pkg_dir, &quot;inst&quot;, &quot;po&quot;), recursive = TRUE)</code></pre>
-<pre><code>[1] &quot;es/LC_MESSAGES/R-translateme.mo&quot;</code></pre>
+<pre><code>## [1] &quot;es/LC_MESSAGES/R-translateme.mo&quot;</code></pre>
 </div>
 <div id="messages-in-compiled-code" class="section level3">
 <h3>Messages in Compiled Code</h3>
@@ -362,24 +362,24 @@ No errors</code></pre>
 <h2>Some Other Tools</h2>
 <p>Beyond support for message localization, <strong>msgtools</strong> also provides some basic diagnostic functions for examining and working with messages. One of these we have already seen: <code>get_message()</code> simply returns a data frame of messages. Other functionality includes spell-checking of messages:</p>
 <pre class="r"><code>spell_check_msgs(pkg = pkg_dir)</code></pre>
-<pre><code># A tibble: 0 × 4
-# ... with 4 variables: message &lt;chr&gt;, misspelling &lt;chr&gt;, file &lt;chr&gt;,
-#   suggestions &lt;list&gt;</code></pre>
+<pre><code>## # A tibble: 0 × 4
+## # ... with 4 variables: message &lt;chr&gt;, misspelling &lt;chr&gt;, file &lt;chr&gt;,
+## #   suggestions &lt;list&gt;</code></pre>
 <p>This can assess spelling in other languages, as well.</p>
 <p>Another simple function is provided to compare string edit distance between messages, to identify messages that are used multiple times throughout a package that may have slight inconsistencies.</p>
 <pre class="r"><code>get_message_distances(pkg = pkg_dir)</code></pre>
-<pre><code># A tibble: 8 × 9
-                             msgid msg_1 msg_2 msg_3 msg_4 msg_5 msg_6
-*                            &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1       As I was going to St. Ives     0    22    24    23    21    21
-2          Every wife had %d sacks    22     0    13    21     8    21
-3                   Every sack had    24    13     0    13    11    21
-4                             cats    23    21    13     0    17    24
-5            Every cat had %d kits    21     8    11    17     0    17
-6     Kits, cats, sacks, and wives    21    21    21    24    17     0
-7 How many were going to St. Ives?    11    24    28    29    26    27
-8         I met a man with %d wife    21    19    19    22    15    20
-# ... with 2 more variables: msg_7 &lt;dbl&gt;, msg_8 &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 8 × 9
+##                              msgid msg_1 msg_2 msg_3 msg_4 msg_5 msg_6
+## *                            &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1       As I was going to St. Ives     0    22    24    23    21    21
+## 2          Every wife had %d sacks    22     0    13    21     8    21
+## 3                   Every sack had    24    13     0    13    11    21
+## 4                             cats    23    21    13     0    17    24
+## 5            Every cat had %d kits    21     8    11    17     0    17
+## 6     Kits, cats, sacks, and wives    21    21    21    24    17     0
+## 7 How many were going to St. Ives?    11    24    28    29    26    27
+## 8         I met a man with %d wife    21    19    19    22    15    20
+## # ... with 2 more variables: msg_7 &lt;dbl&gt;, msg_8 &lt;dbl&gt;</code></pre>
 <p>Here you can see, for example, the close similarity of “Every wife had %d sacks” and “Every cat had %d kits” but clearly these two messages are meant to be distinct.</p>
 <p>The plan is to add additional utilities, for example to document messages in package help files and to identify possible errors in message texts (e.g., pluralization).</p>
 </div>

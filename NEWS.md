@@ -1,7 +1,11 @@
+# CHANGES TO msgtools 0.2.7
+
+* Fix CRAN failures due to `en@quot` UTF-8 directional quote language. (#22)
+
 # CHANGES TO msgtools 0.2.6
 
 * Work on UTF-8 issue. (#22)
-* Added test of core functionality when no messages are present. (#21)
+* Fixed bug in `use_localization()` (specifically in `make_template()` when when no messages are present. Added test of this. (#21)
 
 # CHANGES TO msgtools 0.2.5
 
